@@ -10,7 +10,6 @@
 <style>
     .paper-source {
         margin: 0.4vw;
-        height: 6vw;
         border: 0.2vw darkblue solid;
         display: flex;
         /* place-content: center; */

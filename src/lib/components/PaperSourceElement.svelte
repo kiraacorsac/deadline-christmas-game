@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { abilityEmojis } from "../../initialSettings";
+    import { abilityAttributes } from "../../initialSettings";
     import type { BasePaper } from "../../types";
 
     export let paper: BasePaper;
@@ -9,7 +9,7 @@
     <div class="paper-name">{paper.name}{paper.name}</div>
     
     {#each paper.abilities as ability}
-        {abilityEmojis[ability]}
+        {abilityAttributes[ability].emojiRepresentation}
     {/each}
 </div>
 

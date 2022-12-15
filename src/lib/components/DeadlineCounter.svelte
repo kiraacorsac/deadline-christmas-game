@@ -12,7 +12,7 @@
 
 <style>
     .deadline-counter {
-        height: 2vw;
+        height: 100%;
         padding: 0.4vw;
         background-clip: content-box;
     }

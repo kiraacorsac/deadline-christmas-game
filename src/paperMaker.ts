@@ -7,6 +7,6 @@ export function makePaper(): BasePaper {
     return {
         id,
         name: `Data data data data data dat ${id.substring(0,3)}`,
-        abilities: ["Furry", "Writing", "Design"]
+        abilities: ["furry", "writing", "design"]
     }
 }
