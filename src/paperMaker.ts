@@ -1,12 +1,13 @@
-import type { BasePaper } from "./types";
+import type { BasePaper, PotentialPaper } from "./types";
 import { v4 as uuid } from 'uuid';
 
 
-export function makePaper(): BasePaper {
+export function makePaper(): PotentialPaper {
     const id = uuid();
     return {
         id,
-        name: `Data data data data data dat ${id.substring(0,3)}`,
-        abilities: ["furry", "writing", "design"]
+        name: `${id.substring(0, 3)}`,
+        abilities: ["furry", "writing", "design"],
+        life: 1200
     }
 }

@@ -7,7 +7,7 @@
 
 <div class="wrapper">
   {#each Object.values($gameState.students).filter((s) => s.selected) as student}
-    <Student {student} />
+    <Student studentName={student.name} />
   {/each}
 </div>
 

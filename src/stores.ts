@@ -8,4 +8,4 @@ export const gameScreen = writable<GameScreen>("splash");
 
 export const gameState = writable<GameState>(initialGameState);
 
-export const onTick = writable<Array<() => void>>([]);
+export const onTick = writable<Array<(tick: number) => void>>([]);

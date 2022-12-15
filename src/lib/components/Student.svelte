@@ -1,19 +1,30 @@
 <script lang="ts">
-  import { studentAttributes } from "../../initialSettings";
-  import { onTick } from "../../stores";
-  import type { Ability, ActiveStudent, StartedPaper } from "../../types";
-  export let student: ActiveStudent;
+  import {
+    abilityAttributes,
+    initialSettings,
+    studentAttributes,
+  } from "../../initialSettings";
+  import { gameState, onTick } from "../../stores";
+  import { paperIsDone } from "../../paperUtils";
+  import type {
+    Ability,
+    ActiveStudent,
+    StartedPaper,
+    Student,
+  } from "../../types";
+  export let studentName: Student;
 
-  const attributes = studentAttributes[student.name];
+  const student = $gameState.students[studentName];
+  const attributes = studentAttributes[studentName];
 
   function getPossibleAbility(paper: StartedPaper): Ability {
-    if(paper == undefined) {
-        return undefined
+    if (paper == undefined) {
+      return undefined;
     }
     for (const neededAbility of paper.abilities) {
       if (
         attributes.abilities.includes(neededAbility) &&
-        paper.progress.get(neededAbility) < 100
+        paper.progress.get(neededAbility) < initialSettings.paperDoneAt
       ) {
         // paper.progress.set(neededAbility, paper.progress.get(neededAbility) + 1)
         return neededAbility;
@@ -28,7 +39,10 @@
       return;
     }
 
-    if (student.assignedPaper == undefined) {
+    if (
+      student.assignedPaper == undefined ||
+      paperIsDone(student.assignedPaper)
+    ) {
       student.status = "idle";
       return;
     }
@@ -52,12 +66,24 @@
   function tick() {
     let workToDo = getPossibleAbility(student.assignedPaper);
     assignStatus();
-    if(workToDo){
-        student.assignedPaper.progress[workToDo] += 1;
-    }
 
+    if (workToDo && student.status == "working") {
+      student.assignedPaper.progress.set(
+        workToDo,
+        student.assignedPaper.progress.get(workToDo) + 1
+      );
+      $gameState.students[studentName].assignedPaper = student.assignedPaper;
+    }
   }
 
+  function assignPaper(e: DragEvent) {
+    console.log(e);
+    e.preventDefault();
+    student.assignedPaper = $gameState.workedOnPapers.get(
+      e.dataTransfer.getData("text/plain")
+    );
+    console.log(e.dataTransfer.getData("text/plain"));
+  }
   $onTick.push(tick);
 </script>
 
@@ -66,18 +92,29 @@
   style:top={`${attributes.position.top}vw`}
   style:left={`${attributes.position.left}vw`}
   on:mousedown={whip}
+  on:drop={(e) => assignPaper(e)}
+  on:dragover={(e) => e.preventDefault()}
 >
   <div>
     <img
       class="image"
-      src={`images/lab/student/${student.isWhipped ? 'whipped' : student.status}.png`}
+      src={`images/lab/student/${
+        student.isWhipped ? "whipped" : student.status
+      }.png`}
       alt={student.status}
+      draggable="false"
     />
   </div>
 
-  {student.name}
-  {student.status}
-  {student.motivation}
+  <ul class="details">
+    <li>{attributes.displayName}</li>
+    <!-- <li>{student.motivation}</li> -->
+    <li>
+      {#each attributes.abilities as ability}
+        {abilityAttributes[ability].emojiRepresentation}
+      {/each}
+    </li>
+  </ul>
 </div>
 
 <style>
@@ -87,5 +124,12 @@
   .student {
     background-color: none;
     position: absolute;
+  }
+
+  .details {
+    background-color: white;
+    border-radius: 1vw;
+    text-align: center;
+    padding-top: 0.2vw;
   }
 </style>

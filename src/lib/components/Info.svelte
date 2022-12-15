@@ -19,13 +19,13 @@
   />
 </div>
 
-<div>
-  You have {$gameState.finishedPapers.length} paper{$gameState.finishedPapers
+<div class="info-text">
+  You have submitted {$gameState.finishedPapers.length} paper{$gameState.finishedPapers
     .length == 1
     ? ""
-    : "s"} ready.
+    : "s"} so far.
 </div>
-<div>
+<div class="info-text">
   Your team has the following abilities:
   <ul>
     {#each abilities as a}
@@ -40,5 +40,9 @@
 <style>
   img {
     width: 10vw;
+  }
+
+  .info-text {
+    padding: 0.3vw;
   }
 </style>

@@ -4,6 +4,8 @@
   import type { Supervisor } from "../../types";
 
   export let supervisorName: Supervisor;
+
+
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->

@@ -1,3 +1,4 @@
+import { makePaper } from "./paperMaker"
 import { type Supervisor, type GameScreen, type Student, type Ability, type GameState, type ActiveStudent, studentList } from "./types"
 
 
@@ -139,11 +140,13 @@ export const initialSettings: {
     supervisor: Supervisor,
     deadlineLength: number,
     screen: GameScreen,
+    paperDoneAt: number
 } = {
     supervisor: "bara",
     // seconds_00
     deadlineLength: 30_00,
     screen: "splash",
+    paperDoneAt: 2_00
 }
 
 
@@ -164,30 +167,33 @@ function initStudents(): Record<Student, ActiveStudent> {
 export const initialGameState: GameState = {
     supervisor: initialSettings.supervisor,
     students: initStudents(),
+    potentialPapers: [],
     finishedPapers: [
         {
             id: 'finished',
             name: 'Finished!',
             abilities: ['cycling', 'writing', 'coding'],
-            progress: new Map(
+            progress: new Map<Ability, number>(
                 [['cycling', 0], ['writing', 0], ['coding', 0]]
-            ), 
+            ),
             currentAuthor: undefined,
             authors: ['palko', 'kiraa']
         }
     ],
-    ticks: 10_00,
-    workedOnPapers: [
-        {
-            id: "worked-on",
-            name: "Worked on!",
-            abilities: ['design', 'coding', 'furry'],
-            progress: new Map(
-                [['design', 0], ['coding', 0], ['furry', 0]]
-            ),
-            currentAuthor: undefined,
-            authors: []
-        }
-    ],
+    ticks: 0,
+    workedOnPapers: new Map([
+        [
+            "worked-on",
+            {
+                id: "worked-on",
+                name: "Worked on!",
+                abilities: ['design', 'coding', 'furry'],
+                progress: new Map<Ability, number>(
+                    [['design', 0], ['coding', 0], ['furry', 0]]
+                ),
+                currentAuthor: undefined,
+                authors: []
+            }]
+    ]),
     deadlineLength: initialSettings.deadlineLength
 }

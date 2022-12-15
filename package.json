@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@fontsource/comic-mono": "^4.5.3",
+    "requestanimationframe-timer": "^3.0.3",
     "uuid": "^9.0.0"
   }
 }

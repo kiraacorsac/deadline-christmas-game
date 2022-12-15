@@ -37,6 +37,10 @@ export type BasePaper = {
     abilities: Array<Ability>,
 }
 
+export type PotentialPaper = BasePaper & {
+    life: number
+}
+
 export type StartedPaper = BasePaper & {
     progress: Map<Ability, number>,
     currentAuthor: Student | undefined,
@@ -47,8 +51,9 @@ export type StartedPaper = BasePaper & {
 export type GameState = {
     supervisor: Supervisor,
     students: Record<Student, ActiveStudent>,
+    potentialPapers: Array<PotentialPaper>,
     finishedPapers: Array<StartedPaper>,
-    workedOnPapers: Array<StartedPaper>,
+    workedOnPapers: Map<string, StartedPaper>,
     ticks: number,
     deadlineLength: number,
 }

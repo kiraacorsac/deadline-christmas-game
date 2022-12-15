@@ -3,20 +3,22 @@
   import { initialGameState } from "../../initialSettings";
   import { gameScreen, gameState, onTick } from "../../stores";
   import DeadlineCounter from "../components/DeadlineCounter.svelte";
+  import { setInterval, clearInterval } from "requestanimationframe-timer";
   import Info from "../components/Info.svelte";
   import Lab from "../components/Lab.svelte";
   import PapersInWork from "../components/PapersInWork.svelte";
   import PaperSource from "../components/PaperSource.svelte";
 
   function tick() {
+    const tick = $gameState.ticks;
     for (const f of $onTick) {
-      f();
+      f(tick);
     }
   }
 
   onMount(() => {
     $onTick.push(() => {
-      // $gameState.ticks += 1;
+      $gameState.ticks += 1;
     });
 
     $onTick.push(() => {
@@ -26,15 +28,15 @@
     });
 
     $onTick.push(() => {
-        for(const student of Object.values($gameState.students)){
-            student.motivation = Math.max(-1000, student.motivation-1);
-        }
-    })
+      for (const student of Object.values($gameState.students)) {
+        student.motivation = Math.max(-1000, student.motivation - 1);
+      }
+    });
 
     $gameState.ticks = initialGameState.ticks;
     const interval = setInterval(tick, 10);
     return () => {
-      clearTimeout(interval);
+      clearInterval(interval);
       $gameState = initialGameState;
       $onTick = [];
     };

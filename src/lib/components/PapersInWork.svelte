@@ -4,7 +4,7 @@
 </script>
 
 <div>
-    {#each $gameState.workedOnPapers as paper}
+    {#each [...$gameState.workedOnPapers.values()] as paper}
         <PapersInWorkElement {paper} />
     {/each}
 </div>
