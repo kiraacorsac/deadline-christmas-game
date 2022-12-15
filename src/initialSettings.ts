@@ -169,7 +169,9 @@ export const initialGameState: GameState = {
             id: 'finished',
             name: 'Finished!',
             abilities: ['cycling', 'writing', 'coding'],
-            progress: 1,
+            progress: new Map(
+                [['cycling', 0], ['writing', 0], ['coding', 0]]
+            ), 
             currentAuthor: undefined,
             authors: ['palko', 'kiraa']
         }
@@ -180,7 +182,9 @@ export const initialGameState: GameState = {
             id: "worked-on",
             name: "Worked on!",
             abilities: ['design', 'coding', 'furry'],
-            progress: 0,
+            progress: new Map(
+                [['design', 0], ['coding', 0], ['furry', 0]]
+            ),
             currentAuthor: undefined,
             authors: []
         }
