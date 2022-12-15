@@ -12,7 +12,12 @@
   class:selected={$gameState.supervisor == supervisorName}
   on:click={() => ($gameState.supervisor = supervisorName)}
 >
-  <img src={`images/supervisors/${supervisorName}.png`} alt={supervisorName} />
+  <img
+    src={`images/supervisors/${supervisorName}.png`}
+    alt={supervisorName}
+    draggable="false"
+    on:dragstart={() => false}
+  />
   {supervisorAttributes[supervisorName].displayName}
 </div>
 

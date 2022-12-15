@@ -32,7 +32,12 @@
   class:selected={$gameState.students[studentName].selected}
   on:click={toggleStudentSelection}
 >
-  <img src={`images/students/${studentName}.png`} alt={studentName} />
+  <img
+    src={`images/students/${studentName}.png`}
+    alt={studentName}
+    draggable="false"
+    on:dragstart={() => false}
+  />
   {studentAttributes[studentName].displayName}
 
   <ul class="abilities">

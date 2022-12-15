@@ -7,6 +7,9 @@
   const attributes = studentAttributes[student.name];
 
   function getPossibleAbility(paper: StartedPaper): Ability {
+    if(paper == undefined) {
+        return undefined
+    }
     for (const neededAbility of paper.abilities) {
       if (
         attributes.abilities.includes(neededAbility) &&
@@ -39,7 +42,7 @@
 
   function whip() {
     student.isWhipped = true;
-    student.motivation = Math.min(100, student.motivation + 50);
+    student.motivation = Math.min(1000, student.motivation + 333);
     assignStatus();
     setTimeout(() => {
       student.isWhipped = false;
@@ -74,6 +77,7 @@
 
   {student.name}
   {student.status}
+  {student.motivation}
 </div>
 
 <style>

@@ -11,7 +11,12 @@
 </script>
 
 <div class="supervisor-portrait">
-  <img src={`images/supervisors/${supervisorName}.png`} alt={supervisorName} />
+  <img
+    src={`images/supervisors/${supervisorName}.png`}
+    alt={supervisorName}
+    draggable="false"
+    on:dragstart={() => false}
+  />
 </div>
 
 <div>

@@ -27,7 +27,7 @@
 
     $onTick.push(() => {
         for(const student of Object.values($gameState.students)){
-            student.motivation =-1;
+            student.motivation = Math.max(-1000, student.motivation-1);
         }
     })
 
