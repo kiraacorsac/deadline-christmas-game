@@ -12,6 +12,7 @@
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^2.0.0",
     "@tsconfig/svelte": "^3.0.0",
+    "@types/lodash": "^4.14.191",
     "@types/uuid": "^9.0.0",
     "svelte": "^3.54.0",
     "svelte-check": "^2.10.0",
@@ -21,6 +22,8 @@
   },
   "dependencies": {
     "@fontsource/comic-mono": "^4.5.3",
+    "lodash": "^4.17.21",
+    "pluralize": "^8.0.0",
     "requestanimationframe-timer": "^3.0.3",
     "uuid": "^9.0.0"
   }

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { cloneDeep } from "lodash";
   import { onMount } from "svelte";
   import { initialGameState } from "../../initialSettings";
   import { gameScreen, gameState, onTick } from "../../stores";
@@ -8,6 +9,9 @@
   import Lab from "../components/Lab.svelte";
   import PapersInWork from "../components/PapersInWork.svelte";
   import PaperSource from "../components/PaperSource.svelte";
+
+  let audio: HTMLAudioElement;
+  let tickInterval: number;
 
   function tick() {
     const tick = $gameState.ticks;
@@ -32,16 +36,31 @@
         student.motivation = Math.max(-1000, student.motivation - 1);
       }
     });
+    // audio.play();
+
+    window.onblur = (e) => {
+      audio.pause();
+      clearInterval(tickInterval);
+    };
+
+    window.onfocus = (e) => {
+      // audio.play();
+      tickInterval = setInterval(tick, 10);
+    };
 
     $gameState.ticks = initialGameState.ticks;
-    const interval = setInterval(tick, 10);
+    tickInterval = setInterval(tick, 10);
     return () => {
-      clearInterval(interval);
-      $gameState = initialGameState;
+      clearInterval(tickInterval);
+      $gameState = cloneDeep(initialGameState);
       $onTick = [];
+      window.onblur = () => {};
+      window.onfocus = () => {};
     };
   });
 </script>
+
+<audio src="audio/timer_music.mp3" bind:this={audio} />
 
 <div class="wrapper">
   <div class="deadline">
@@ -56,7 +75,7 @@
   <div class="lab">
     <Lab />
   </div>
-  <div class="counter">
+  <div class="in-work">
     <PapersInWork />
   </div>
 </div>
@@ -66,12 +85,12 @@
     height: 100%;
     display: grid;
     grid-template-columns: 0.5fr 1fr 0.75fr;
-    grid-template-rows: 0.075fr 0.175fr 1fr;
+    grid-template-rows: 0.05fr 0.21fr 1fr;
     gap: 0px 0px;
     grid-template-areas:
       "deadline deadline deadline"
       "new-papers new-papers new-papers"
-      "info lab counter";
+      "info lab in-work";
   }
   .deadline {
     grid-area: deadline;
@@ -88,7 +107,8 @@
   .info {
     place-content: info;
   }
-  .counter {
-    grid-area: counter;
+  .in-work {
+    grid-area: in-work;
+    height: 100%;
   }
 </style>

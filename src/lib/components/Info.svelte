@@ -1,12 +1,9 @@
 <script lang="ts">
   import { abilityAttributes, studentAttributes } from "../../initialSettings";
-  import { gameState } from "../../stores";
+  import { gameState, finishedPapers, selectedStudentsAbilities } from "../../stores";
 
   let supervisorName = $gameState.supervisor;
-  let abilities = [];
-  for (let s of Object.values($gameState.students).filter((s) => s.selected)) {
-    abilities.push(...studentAttributes[s.name].abilities);
-  }
+  let abilities = $selectedStudentsAbilities;
   abilities = [...new Set(abilities)];
 </script>
 
@@ -20,8 +17,7 @@
 </div>
 
 <div class="info-text">
-  You have submitted {$gameState.finishedPapers.length} paper{$gameState.finishedPapers
-    .length == 1
+  You have submitted {$finishedPapers.length} paper{$finishedPapers.length == 1
     ? ""
     : "s"} so far.
 </div>

@@ -40,6 +40,7 @@
 
   .paper-end {
     width: 14vw;
+    padding: 0.5vw;
     background-color: lightblue;
   }
 </style>

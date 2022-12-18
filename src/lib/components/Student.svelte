@@ -77,12 +77,13 @@
   }
 
   function assignPaper(e: DragEvent) {
-    console.log(e);
     e.preventDefault();
-    student.assignedPaper = $gameState.workedOnPapers.get(
+    const paper = $gameState.workedOnPapers.get(
       e.dataTransfer.getData("text/plain")
     );
-    console.log(e.dataTransfer.getData("text/plain"));
+    $gameState.students[student.name].assignedPaper = paper;
+    paper.authors.push(student.name);
+    $gameState.students = $gameState.students;
   }
   $onTick.push(tick);
 </script>

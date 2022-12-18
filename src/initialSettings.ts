@@ -1,5 +1,4 @@
-import { makePaper } from "./paperMaker"
-import { type Supervisor, type GameScreen, type Student, type Ability, type GameState, type ActiveStudent, studentList } from "./types"
+import { type Supervisor, type GameScreen, type Student, type Ability, type GameState, type ActiveStudent, studentList, type StartedPaper } from "./types"
 
 
 export const studentAttributes: Record<Student, { displayName: string, abilities: Array<Ability>, position: { top: number, left: number } }> = {
@@ -52,7 +51,7 @@ export const studentAttributes: Record<Student, { displayName: string, abilities
         }
     },
     "matus": {
-        displayName: "Matus",
+        displayName: "Matúš",
         abilities: ["inline", "graphics", "coding"],
         position: {
             top: 16.5,
@@ -62,24 +61,30 @@ export const studentAttributes: Record<Student, { displayName: string, abilities
 }
 
 
-export const supervisorAttributes: Record<Supervisor, { displayName: string }> = {
+export const supervisorAttributes: Record<Supervisor, { displayName: string, talent: string }> = {
     "bara": {
-        displayName: "Baru",
+        displayName: "Bára",
+        talent: "Recruit: pick an additional 1 student in your team."
     },
     "honza": {
         displayName: "Honza",
+        talent: "Last minute polish: the deadline timer is extended by 10 seconds."
     },
     "david": {
         displayName: "David",
+        talent: "Personal touch: every paper gains slow progress passively, in addition to students' work."
     },
     "jirka": {
         displayName: "Jirka",
+        talent: "Consultations: every motivational whip progresses the paper on which the student is working on."
     },
     "katka": {
-        displayName: "Katka"
+        displayName: "Katka",
+        talent: "Teacher: Student can slowly progress papers' needs that their abilities don't cover."
     },
     "marek": {
-        displayName: "Marek"
+        displayName: "Marek",
+        talent: "Organization: all ideas' needs are covered by at least one of the selected students abilities. "
     }
 
 }
@@ -143,10 +148,9 @@ export const initialSettings: {
     paperDoneAt: number
 } = {
     supervisor: "bara",
-    // seconds_00
-    deadlineLength: 30_00,
+    deadlineLength: 87_00,
     screen: "splash",
-    paperDoneAt: 2_00
+    paperDoneAt: 3_00
 }
 
 
@@ -155,7 +159,7 @@ function initStudents(): Record<Student, ActiveStudent> {
     for (const s of studentList) {
         studentsRecord[s] = {
             name: s,
-            selected: true,
+            selected: false,
             motivation: 100,
             assignedPaper: undefined,
             status: 'idle',
@@ -168,32 +172,7 @@ export const initialGameState: GameState = {
     supervisor: initialSettings.supervisor,
     students: initStudents(),
     potentialPapers: [],
-    finishedPapers: [
-        {
-            id: 'finished',
-            name: 'Finished!',
-            abilities: ['cycling', 'writing', 'coding'],
-            progress: new Map<Ability, number>(
-                [['cycling', 0], ['writing', 0], ['coding', 0]]
-            ),
-            currentAuthor: undefined,
-            authors: ['palko', 'kiraa']
-        }
-    ],
     ticks: 0,
-    workedOnPapers: new Map([
-        [
-            "worked-on",
-            {
-                id: "worked-on",
-                name: "Worked on!",
-                abilities: ['design', 'coding', 'furry'],
-                progress: new Map<Ability, number>(
-                    [['design', 0], ['coding', 0], ['furry', 0]]
-                ),
-                currentAuthor: undefined,
-                authors: []
-            }]
-    ]),
+    workedOnPapers: new Map([]),
     deadlineLength: initialSettings.deadlineLength
 }

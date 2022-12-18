@@ -1,14 +1,24 @@
 <script lang="ts">
-  import { abilityAttributes } from "../../initialSettings";
+  import {
+    abilityAttributes,
+    initialSettings,
+    studentAttributes,
+  } from "../../initialSettings";
   import { paperIsDone } from "../../paperUtils";
-  import { gameState } from "../../stores";
-  import type { StartedPaper } from "../../types";
+  import { gameState, finishedPapers } from "../../stores";
+  import type { StartedPaper, studentList } from "../../types";
+  import Bar from "./Bar.svelte";
 
   export let paper: StartedPaper;
 
+  let currentAuthors = [];
+  $: currentAuthors = Object.values($gameState.students).filter(
+    (s) => s.assignedPaper?.id == paper.id
+  );
+
   function submitPaper() {
-    $gameState.finishedPapers.push(paper);
-    $gameState.finishedPapers = $gameState.finishedPapers;
+    $finishedPapers.push(paper);
+    $finishedPapers = $finishedPapers;
     dropPaper();
   }
 
@@ -18,8 +28,6 @@
   }
 
   function handleDragPaperInWorks(e: DragEvent, paperId: string) {
-    console.log(paperId);
-
     e.dataTransfer.setData("text/plain", paperId);
   }
 </script>
@@ -31,16 +39,39 @@
   <ul>
     {#each paper.abilities as ability}
       <li>
-        {abilityAttributes[ability].emojiRepresentation}
-        {paper.progress.get(ability)}
+        <span class="emoji-representation"
+          >{abilityAttributes[ability].emojiRepresentation}</span
+        >
+        <div class="progress-container">
+          <Bar
+            spotValue={paper.progress.get(ability)}
+            maxValue={initialSettings.paperDoneAt}
+          />
+        </div>
       </li>
     {/each}
   </ul>
+  Currently assigned to
+  {#if currentAuthors.length == 0}
+    nobody.
+  {/if}
+  {#each currentAuthors as s, i}
+    {studentAttributes[s.name].displayName}{#if i < currentAuthors.length - 1},<span> </span>{:else}.{/if}
+  {/each}
   <br />
   {#if paperIsDone(paper)}
     <button on:click={submitPaper}>Submit!</button>
   {:else}
-    <button on:click={dropPaper}>Drop topic</button>
+    <button on:click={dropPaper}>Drop idea</button>
   {/if}
-  <!-- Assigned: {paper.currentAuthor ?? "Nobody!"} -->
 </div>
+
+<style>
+  .progress-container {
+    display: inline-block;
+    width: calc(100% - 2vw);
+  }
+  .emoji-representation {
+    width: 2vw;
+  }
+</style>

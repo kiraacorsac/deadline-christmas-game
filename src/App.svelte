@@ -7,13 +7,16 @@
   import Splash from "./lib/screens/Splash.svelte";
   import { gameScreen } from "./stores";
 
+  let whipSound;
   let isWhipped = false;
 </script>
 
+<audio src="audio/whack.mp3" bind:this={whipSound} />
 <main
   class:whipped={isWhipped}
   on:mousedown={() => {
     isWhipped = true;
+    whipSound.play();
   }}
   on:mouseup={() => {
     isWhipped = false;

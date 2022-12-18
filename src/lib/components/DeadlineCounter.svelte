@@ -15,5 +15,6 @@
         height: 100%;
         padding: 0.4vw;
         background-clip: content-box;
+        transition: 0.4s;
     }
 </style>

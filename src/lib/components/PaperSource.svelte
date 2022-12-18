@@ -1,13 +1,17 @@
 <script lang="ts">
-  import { makePaper } from "../../paperMaker";
-  import { gameState, onTick } from "../../stores";
+  import _ from "lodash";
+  import { initialSettings } from "../../initialSettings";
+  import { makePaper } from "../../paperUtils";
+  import { gameState, onTick, selectedStudentsAbilities } from "../../stores";
+  import { abilityList } from "../../types";
   import PaperSourceElement from "./PaperSourceElement.svelte";
 
   $onTick.push((t) => {
     if (t % 200 == 0) {
-      $gameState.potentialPapers.push(makePaper());
+      $gameState.potentialPapers.push(
+        makePaper($selectedStudentsAbilities, _.difference(abilityList, $selectedStudentsAbilities))
+      );
       $gameState.potentialPapers = $gameState.potentialPapers;
-      console.log($gameState.potentialPapers)
     }
   });
 </script>
@@ -25,7 +29,7 @@
     position: absolute;
     display: flex;
     width: calc(100% - 0.8vw);
-    height: 5.5vw;
+    height: 7vw;
     overflow: hidden;
     /* place-content: center; */
     align-items: center;

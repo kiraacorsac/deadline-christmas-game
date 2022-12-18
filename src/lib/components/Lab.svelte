@@ -15,6 +15,7 @@
   .wrapper {
     background-image: url("images/lab/background.jpg");
     background-size: contain;
+    background-repeat: no-repeat;
     height: 100%;
     width: 49.3vw;
   }

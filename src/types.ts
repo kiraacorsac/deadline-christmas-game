@@ -27,14 +27,14 @@ export type ActiveStudent = {
     isWhipped: boolean
 };
 
-export type SpecialAbility = "furry" | "cycling" | "lego" | "plants" | "inline" | "driving" | "handstands";
-export type RegularAbility = "writing" | "coding" | "vr" | "design" | "graphics";
-export type Ability = SpecialAbility | RegularAbility;
+export const abilityList = ["furry", "cycling", "lego", "plants", "inline", "driving", "handstands", "writing", "coding", "vr", "design", "graphics"] as const;
+export type Ability = AnyElementOf<typeof abilityList>;
 
 export type BasePaper = {
     id: string,
     name: string,
     abilities: Array<Ability>,
+    picked: boolean
 }
 
 export type PotentialPaper = BasePaper & {
@@ -52,7 +52,6 @@ export type GameState = {
     supervisor: Supervisor,
     students: Record<Student, ActiveStudent>,
     potentialPapers: Array<PotentialPaper>,
-    finishedPapers: Array<StartedPaper>,
     workedOnPapers: Map<string, StartedPaper>,
     ticks: number,
     deadlineLength: number,
