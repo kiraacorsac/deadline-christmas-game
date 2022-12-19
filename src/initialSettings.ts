@@ -6,8 +6,8 @@ export const studentAttributes: Record<Student, { displayName: string, abilities
         displayName: "Filip",
         abilities: ["furry", "coding", "writing"],
         position: {
-            top: 11,
-            left: 23,
+            top: 22,
+            left: 35,
         }
     },
     "palko": {
@@ -23,15 +23,15 @@ export const studentAttributes: Record<Student, { displayName: string, abilities
         abilities: ["lego", "coding", "vr"],
         position: {
             top: 10,
-            left: 42,
+            left: 41,
         }
     },
     "david": {
         displayName: "David",
         abilities: ["driving", "writing", "vr"],
         position: {
-            top: 16,
-            left: 27,
+            top: 25,
+            left: 28,
         }
     },
     "hanka": {

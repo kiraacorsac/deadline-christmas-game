@@ -65,7 +65,7 @@
       });
     }
 
-    // audio.play();
+    audio.play();
 
     window.onblur = (e) => {
       audio.pause();
@@ -73,7 +73,7 @@
     };
 
     window.onfocus = (e) => {
-      // audio.play();
+      audio.play();
       tickInterval = setInterval(tick, 10);
     };
 
