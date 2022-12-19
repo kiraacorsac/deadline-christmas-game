@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { cloneDeep } from "lodash";
+  import _, { cloneDeep } from "lodash";
   import { onMount } from "svelte";
-  import { initialGameState } from "../../initialSettings";
+  import { initialGameState, initialSettings } from "../../initialSettings";
   import { gameScreen, gameState, onTick } from "../../stores";
   import DeadlineCounter from "../components/DeadlineCounter.svelte";
   import { setInterval, clearInterval } from "requestanimationframe-timer";
@@ -12,6 +12,11 @@
 
   let audio: HTMLAudioElement;
   let tickInterval: number;
+
+  const realDeadlineLength =
+    $gameState.supervisor == "honza"
+      ? initialSettings.deadlineLength + 10_00
+      : initialSettings.deadlineLength;
 
   function tick() {
     const tick = $gameState.ticks;
@@ -26,7 +31,7 @@
     });
 
     $onTick.push(() => {
-      if ($gameState.ticks == $gameState.deadlineLength + 1) {
+      if ($gameState.ticks == realDeadlineLength + 1) {
         $gameScreen = "end";
       }
     });
@@ -36,6 +41,30 @@
         student.motivation = Math.max(-1000, student.motivation - 1);
       }
     });
+
+    if ($gameState.supervisor == "david") {
+      $onTick.push((t) => {
+        if (t % 10 != 0) {
+          return;
+        }
+
+        const paperOfChoiceId = _.shuffle([
+          ...$gameState.workedOnPapers.keys(),
+        ])[0];
+
+        if (paperOfChoiceId == undefined) {
+          return;
+        }
+
+        const paperOfChoice = $gameState.workedOnPapers.get(paperOfChoiceId);
+        const needOfChoice = _.shuffle([...paperOfChoice.progress.keys()])[0];
+        const progress = paperOfChoice.progress.get(needOfChoice);
+        if (progress < initialSettings.paperDoneAt) {
+          paperOfChoice.progress.set(needOfChoice, progress + 1);
+        }
+      });
+    }
+
     // audio.play();
 
     window.onblur = (e) => {
@@ -48,7 +77,7 @@
       tickInterval = setInterval(tick, 10);
     };
 
-    $gameState.ticks = initialGameState.ticks;
+    $gameState.ticks = 0;
     tickInterval = setInterval(tick, 10);
     return () => {
       clearInterval(tickInterval);
@@ -64,7 +93,7 @@
 
 <div class="wrapper">
   <div class="deadline">
-    <DeadlineCounter />
+    <DeadlineCounter deadlineLength={realDeadlineLength} />
   </div>
   <div class="new-papers">
     <PaperSource />

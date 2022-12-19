@@ -4,11 +4,12 @@
 
   import StudentPickElement from "../components/StudentPickElement.svelte";
 
-  let remaining = 4;
+  let studentNumber = $gameState.supervisor == "bara" ? 5 : 4;
+  let remaining = studentNumber;
   let selected = 0;
   gameState.subscribe((v) => {
     selected = Object.values(v.students).filter((s) => s.selected).length;
-    remaining = 4 - selected;
+    remaining = studentNumber - selected;
   });
 
   function changeScreen(newScreen: GameScreen) {
@@ -17,7 +18,7 @@
 </script>
 
 <div class="wrapper">
-  <h2>Choose up to 4 students ({remaining} remaining)</h2>
+  <h2>Choose up to {studentNumber} students ({remaining} remaining)</h2>
 
   <div class="student-picker">
     {#each studentList as studentName}
@@ -25,7 +26,10 @@
     {/each}
   </div>
 
-  <button on:click={() => selected < 1 ? null : changeScreen("game")}>Start the deadline {#if selected < 1} (pick at least 1 student first){/if}</button>
+  <button on:click={() => (selected < 1 ? null : changeScreen("game"))}
+    >Start the deadline {#if selected < 1}
+      (pick at least 1 student first){/if}</button
+  >
 </div>
 
 <style>

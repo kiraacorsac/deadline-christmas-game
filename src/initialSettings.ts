@@ -61,30 +61,30 @@ export const studentAttributes: Record<Student, { displayName: string, abilities
 }
 
 
-export const supervisorAttributes: Record<Supervisor, { displayName: string, talent: string }> = {
+export const supervisorAttributes: Record<Supervisor, { displayName: string, talent: [string, string] }> = {
     "bara": {
         displayName: "Bára",
-        talent: "Recruit: pick an additional 1 student in your team."
+        talent: ["Recruit", "Pick an additional 1 student in your team."]
     },
     "honza": {
         displayName: "Honza",
-        talent: "Last minute polish: the deadline timer is extended by 10 seconds."
+        talent: ["Last minute polish", "The deadline timer is extended."]
     },
     "david": {
         displayName: "David",
-        talent: "Personal touch: every paper gains slow progress passively, in addition to students' work."
+        talent: ["Personal touch", "Every paper gains slow progress passively, in addition to students' work."]
     },
     "jirka": {
         displayName: "Jirka",
-        talent: "Consultations: every motivational whip progresses the paper on which the student is working on."
+        talent: ["Consultations", "Every motivational whip progresses the paper on which the student is working on."]
     },
     "katka": {
         displayName: "Katka",
-        talent: "Teacher: Student can slowly progress papers' needs that their abilities don't cover."
+        talent: ["Teacher", "Student can slowly progress papers' needs that their abilities don't cover."]
     },
     "marek": {
         displayName: "Marek",
-        talent: "Organization: all ideas' needs are covered by at least one of the selected students abilities. "
+        talent: ["Diligence", "All students work faster."]
     }
 
 }
@@ -174,5 +174,4 @@ export const initialGameState: GameState = {
     potentialPapers: [],
     ticks: 0,
     workedOnPapers: new Map([]),
-    deadlineLength: initialSettings.deadlineLength
 }

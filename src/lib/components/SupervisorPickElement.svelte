@@ -4,8 +4,6 @@
   import type { Supervisor } from "../../types";
 
   export let supervisorName: Supervisor;
-
-
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -21,9 +19,22 @@
     on:dragstart={() => false}
   />
   {supervisorAttributes[supervisorName].displayName}
+  <p class="talent">
+    <span class="talent-name"
+      >{supervisorAttributes[supervisorName].talent[0]}:</span
+    >
+    <br />
+    <span>{supervisorAttributes[supervisorName].talent[1]}</span>
+  </p>
 </div>
 
 <style>
+  .talent {
+    font-size: 1vw;
+  }
+  .talent-name {
+    text-decoration: underline;
+  }
   .supervisor-pick {
     width: 11vw;
     font-size: 2rem;

@@ -58,12 +58,21 @@
     student.isWhipped = true;
     student.motivation = Math.min(1000, student.motivation + 333);
     assignStatus();
+
+    const work = getPossibleAbility(student.assignedPaper);
+    if ($gameState.supervisor == "jirka" && work != undefined) {
+      student.assignedPaper.progress.set(
+        work,
+        student.assignedPaper.progress.get(work) + 1
+      );
+    }
+
     setTimeout(() => {
       student.isWhipped = false;
     }, 250);
   }
 
-  function tick() {
+  function tick(t: number) {
     let workToDo = getPossibleAbility(student.assignedPaper);
     assignStatus();
 
@@ -71,6 +80,29 @@
       student.assignedPaper.progress.set(
         workToDo,
         student.assignedPaper.progress.get(workToDo) + 1
+      );
+
+      if ($gameState.supervisor == "marek" && t % 20 == 0) {
+        student.assignedPaper.progress.set(
+          workToDo,
+          student.assignedPaper.progress.get(workToDo) + 1
+        );
+      }
+      $gameState.students[studentName].assignedPaper = student.assignedPaper;
+    }
+
+    if (
+      student.status == "confuzed" &&
+      $gameState.supervisor == "katka" &&
+      t % 10 == 0
+    ) {
+      const work = [...student.assignedPaper.progress.entries()].find(
+        ([a, s]) => s < initialSettings.paperDoneAt
+      )[0];
+
+      student.assignedPaper.progress.set(
+        work,
+        student.assignedPaper.progress.get(work) + 1
       );
       $gameState.students[studentName].assignedPaper = student.assignedPaper;
     }

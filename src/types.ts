@@ -54,5 +54,4 @@ export type GameState = {
     potentialPapers: Array<PotentialPaper>,
     workedOnPapers: Map<string, StartedPaper>,
     ticks: number,
-    deadlineLength: number,
 }
